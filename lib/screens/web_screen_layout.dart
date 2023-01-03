@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/colors.dart';
-import 'package:whatsapp_clone/widgets/chat_list.dart';
-import 'package:whatsapp_clone/widgets/contact_list.dart';
+import 'package:whatsapp_clone/features/chat/widgets/chat_list.dart';
+import 'package:whatsapp_clone/features/chat/widgets/contact_list.dart';
 import 'package:whatsapp_clone/widgets/web_chat_appbar.dart';
 import 'package:whatsapp_clone/widgets/web_profile_bar.dart';
 import 'package:whatsapp_clone/widgets/web_search_bar.dart';
@@ -37,7 +37,7 @@ class WebScreenLayout extends StatelessWidget {
             child: Column(
               children: [
                 WebChatAppbar(),
-                Expanded(child: ChatList()),
+                Expanded(child: ChatList(reciverUserId: '',)),
                 Container(
                   height: MediaQuery.of(context).size.height*0.07,
                   padding: EdgeInsets.all(10),

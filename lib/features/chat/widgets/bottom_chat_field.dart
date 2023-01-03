@@ -15,19 +15,20 @@ class BottomChatField extends ConsumerStatefulWidget {
 class _BottomChatFieldState extends ConsumerState<BottomChatField> {
   bool isShowSendButton=false;
   final TextEditingController _messageController=TextEditingController();
-  @override
-  void dispose(){
-    super.dispose();
-    _messageController.dispose();
-  }
+
   void sendTextMessage()async{
     if(isShowSendButton){
       ref.read(chatControllerProvider).sendTextMessage(context, _messageController.text.trim(), widget.recieverUserId);
-    };
+    }
 
     setState((){
       _messageController.text='';
     });
+  }
+  @override
+  void dispose(){
+    super.dispose();
+    _messageController.dispose();
   }
   @override
   Widget build(BuildContext context) {

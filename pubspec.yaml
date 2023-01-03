@@ -45,6 +45,7 @@ dependencies:
   build_runner: ^2.2.0
   flutter_contacts: ^1.1.5
   uuid: ^3.0.6
+  intl: ^0.17.0
 
 
 dev_dependencies:

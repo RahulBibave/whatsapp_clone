@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 
+
 class MyMessageCard extends StatelessWidget {
   final String message;
   final String date;

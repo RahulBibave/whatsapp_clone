@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp_clone/common/enums/messages_enum.dart';
 import 'package:whatsapp_clone/common/utils/utils.dart';
+import 'package:whatsapp_clone/info.dart';
 import 'package:whatsapp_clone/models/chat_contact.dart';
 import 'package:whatsapp_clone/models/message.dart';
 import 'package:whatsapp_clone/models/user_model.dart';
@@ -19,6 +20,47 @@ class ChatRepository{
   final FirebaseAuth auth;
 
   ChatRepository({required this.firestore, required this.auth});
+
+  Stream<List<ChatContact>> getChatContacts(){
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .snapshots().asyncMap((event)async {
+          List<ChatContact>contacts=[];
+          for(var document in event.docs){
+            var chatContact=ChatContact.fromMap(document.data());
+            var userData = await firestore.collection('users').doc(chatContact.contactId).get();
+            var user = UserModel.fromMap(userData.data()!);
+            contacts.add(ChatContact(name: user.name, profilePic: user.profilePic, contactId: user.uid, timeSent: chatContact.timeSent, lastMessage:chatContact.lastMessage ));
+
+          }
+          return contacts;
+    });
+
+  }
+
+
+  Stream<List<Message>> getChatStream(String recieverUserId){
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(recieverUserId)
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots().map((event) {
+          List<Message>messages=[];
+          for(var document in event.docs){
+            messages.add(Message.fromMap(document.data()));
+          }
+          return messages;
+    });
+
+  }
+
+
+
 
   void _saveDataToContactsSubcollection(
       UserModel senderUserData,

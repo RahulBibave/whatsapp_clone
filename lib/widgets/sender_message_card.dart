@@ -41,7 +41,7 @@ class SenderMessageCard extends StatelessWidget {
                   children: [
                     Text(date,style: const TextStyle(fontSize: 13,color: Colors.white60),),
                     const SizedBox(width: 5,),
-                    const Icon(Icons.done_all,size: 20,color: Colors.white60,)
+
                   ],
                 ),
               )

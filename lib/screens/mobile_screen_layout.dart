@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone/colors.dart';
+import 'package:whatsapp_clone/features/auth/controller/auth_contoller.dart';
 import 'package:whatsapp_clone/features/select_contact/screens/select_contact_screen.dart';
-import 'package:whatsapp_clone/widgets/contact_list.dart';
+import 'package:whatsapp_clone/features/chat/widgets/contact_list.dart';
 
-class MobileScreenLayout extends StatelessWidget {
+class MobileScreenLayout extends ConsumerStatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState<MobileScreenLayout> createState() => _MobileScreenLayoutState();
+}
+
+class _MobileScreenLayoutState extends ConsumerState<MobileScreenLayout> with WidgetsBindingObserver{
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.resumed:
+        ref.read(authControllerProvider).setUserState(true);
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.paused:
+        ref.read(authControllerProvider).setUserState(false);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
